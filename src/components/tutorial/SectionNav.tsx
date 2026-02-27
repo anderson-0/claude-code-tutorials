@@ -34,10 +34,19 @@ export function SectionNav({
               <a
                 key={section.id}
                 href={`#${section.id}`}
-                className={`whitespace-nowrap rounded-2xl px-3 py-[5px] text-[11px] font-medium no-underline transition-all ${
+                onClick={(e) => {
+                  e.preventDefault()
+                  const el = document.getElementById(section.id)
+                  if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                    // Update URL hash without jumping
+                    window.history.pushState(null, '', `#${section.id}`)
+                  }
+                }}
+                className={`cursor-pointer whitespace-nowrap rounded-2xl px-3 py-[5px] text-[11px] font-medium no-underline transition-all ${
                   isActive
                     ? 'border border-[#1f6feb] bg-[#1f6feb] text-white'
-                    : 'border border-transparent text-[#8b949e] hover:text-[#c9d1d9]'
+                    : 'border border-transparent text-[#c9d1d9] hover:bg-[#21262d] hover:text-[#e6edf3]'
                 }`}
               >
                 {section.short}
