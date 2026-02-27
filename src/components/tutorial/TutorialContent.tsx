@@ -50,11 +50,7 @@ export function TutorialContent({ onMenuOpen, onSelectTutorial, currentTutorialI
     ))
 
   const handleMenuOpen = () => {
-    if (onMenuOpen) {
-      onMenuOpen()
-    } else {
-      setSidebarOpen(true)
-    }
+    setSidebarOpen(true)
   }
 
   const handleSelectTutorial = (id: number) => {
