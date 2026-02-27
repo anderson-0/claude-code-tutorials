@@ -6,6 +6,8 @@ import { Callout } from './Callout'
 import { Accordion } from './Accordion'
 import { TutorialSidebar } from './TutorialSidebar'
 import { SectionNav } from './SectionNav'
+import { AppSelector } from './AppSelector'
+import { DynamicCodeBlock } from './DynamicCodeBlock'
 import { tutorials, levelColors, levelLabels, type Section } from '#/lib/tutorials-data'
 
 const meta = tutorials[8] // Tutorial 9 (0-indexed)
@@ -918,13 +920,23 @@ None currently.
             management strategies.
           </p>
 
+          <AppSelector />
+
           <div className="my-4 rounded-[10px] border border-[#21262d] bg-[#161b22] p-[22px]">
             <h3 className="mb-3 mt-0 text-[19px] font-semibold text-[#e6edf3]">
               Session 1: Plan
             </h3>
-            <CodeBlock
-              code={`cd taskforge-tutorial/nextjs
-claude`}
+            <DynamicCodeBlock
+                            content={{
+                nextjs: {
+                  code: `cd taskforge-tutorial/nextjs
+claude`,
+                },
+                fastapi: {
+                  code: `cd taskforge-tutorial/fastapi
+claude`,
+                },
+              }}
             />
             <CodeBlock
               lang="text"

@@ -6,6 +6,8 @@ import { Callout } from './Callout'
 import { Accordion } from './Accordion'
 import { TutorialSidebar } from './TutorialSidebar'
 import { SectionNav } from './SectionNav'
+import { AppSelector } from './AppSelector'
+import { DynamicCodeBlock } from './DynamicCodeBlock'
 import { tutorials, levelColors, levelLabels, type Section } from '#/lib/tutorials-data'
 
 const meta = tutorials[13] // Tutorial 14 (0-indexed)
@@ -1116,14 +1118,25 @@ exit 0`}
             We'll create four agents, validation hooks, and a queue-based pipeline.
           </p>
 
+          <AppSelector />
+
           <div className="my-4 rounded-[10px] border border-[#21262d] bg-[#161b22] p-[22px]">
             <h3 className="mb-3 mt-0 text-[19px] font-semibold text-[#e6edf3]">
               Step 1: Create Pipeline Structure
             </h3>
-            <CodeBlock
-              code={`cd taskforge-tutorial/nextjs  # or /fastapi
+            <DynamicCodeBlock
+                            content={{
+                nextjs: {
+                  code: `cd taskforge-tutorial/nextjs
 mkdir -p .tasks/{requests,specs,reviews}
-mkdir -p .claude/{agents,hooks}`}
+mkdir -p .claude/{agents,hooks}`,
+                },
+                fastapi: {
+                  code: `cd taskforge-tutorial/fastapi
+mkdir -p .tasks/{requests,specs,reviews}
+mkdir -p .claude/{agents,hooks}`,
+                },
+              }}
             />
             <p className="my-3 text-[15px] leading-relaxed text-[#c9d1d9]">
               Create the feature request:

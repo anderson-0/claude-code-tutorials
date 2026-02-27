@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useState, useCallback, type ReactNode } from 'react'
+import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react'
 
 // Available app tracks
 export type AppTrack = 'nextjs' | 'fastapi'
@@ -43,22 +43,22 @@ const AppContext = createContext<AppContextType | null>(null)
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [selectedTrack, setSelectedTrackState] = useState<AppTrack>('nextjs')
+  const [isHydrated, setIsHydrated] = useState(false)
+
+  // Load from localStorage on mount (client-side only)
+  useEffect(() => {
+    const saved = localStorage.getItem('tutorial-app-track') as AppTrack | null
+    if (saved && APP_TRACKS[saved]) {
+      setSelectedTrackState(saved)
+    }
+    setIsHydrated(true)
+  }, [])
 
   const setSelectedTrack = useCallback((track: AppTrack) => {
     setSelectedTrackState(track)
     // Persist to localStorage for page reloads
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('tutorial-app-track', track)
-    }
+    localStorage.setItem('tutorial-app-track', track)
   }, [])
-
-  // Load from localStorage on mount
-  if (typeof window !== 'undefined') {
-    const saved = localStorage.getItem('tutorial-app-track') as AppTrack | null
-    if (saved && saved !== selectedTrack && APP_TRACKS[saved]) {
-      setSelectedTrackState(saved)
-    }
-  }
 
   const trackInfo = APP_TRACKS[selectedTrack]
 

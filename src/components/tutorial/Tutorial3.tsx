@@ -6,6 +6,9 @@ import { Callout } from './Callout'
 import { Accordion } from './Accordion'
 import { TutorialSidebar } from './TutorialSidebar'
 import { SectionNav } from './SectionNav'
+import { AppSelector } from './AppSelector'
+import { DynamicCodeBlock } from './DynamicCodeBlock'
+import { useAppTrack } from './AppContext'
 import { tutorials, levelColors, levelLabels, type Section } from '#/lib/tutorials-data'
 
 const meta = tutorials[2] // Tutorial 3 (0-indexed)
@@ -32,6 +35,7 @@ interface Tutorial3Props {
 export function Tutorial3({ onMenuOpen, onSelectTutorial, currentTutorialId }: Tutorial3Props) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('overview')
+  const { trackInfo } = useAppTrack()
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -129,7 +133,7 @@ export function Tutorial3({ onMenuOpen, onSelectTutorial, currentTutorialId }: T
               {
                 icon: '🛠️',
                 title: 'Tools needed',
-                desc: 'Terminal, Claude Code, a project to onboard (TaskForge recommended)',
+                desc: `Terminal, Claude Code, a project to onboard (TaskForge ${trackInfo.name} recommended)`,
               },
               {
                 icon: '📦',
@@ -284,10 +288,17 @@ export function Tutorial3({ onMenuOpen, onSelectTutorial, currentTutorialId }: T
           <h3 className="mb-2.5 mt-7 text-[19px] font-semibold text-[#e6edf3]">
             Example Output: Architecture Diagram
           </h3>
-          <CodeBlock
-            lang="text"
-            filename="Example output from Claude"
-            code={`## TaskForge Architecture
+          <p className="my-3 text-[15px] leading-relaxed text-[#c9d1d9]">
+            Select your track to see a relevant example:
+          </p>
+          <AppSelector />
+          <DynamicCodeBlock
+            showTrackIndicator
+            content={{
+              nextjs: {
+                lang: 'text',
+                filename: 'Example output from Claude',
+                code: `## TaskForge Architecture (Next.js)
 
 ┌─────────────────────────────────────────────────────────────┐
 │                         Frontend                             │
@@ -307,7 +318,35 @@ Data Flow:
 1. User interacts with Pages/Components
 2. Components call Hooks which use Server Actions or API routes
 3. API routes delegate to Services for business logic
-4. Services use Prisma to interact with SQLite database`}
+4. Services use Prisma to interact with SQLite database`,
+              },
+              fastapi: {
+                lang: 'text',
+                filename: 'Example output from Claude',
+                code: `## TaskForge Architecture (FastAPI)
+
+┌─────────────────────────────────────────────────────────────┐
+│                       API Layer                              │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
+│  │  Routers    │──│ Dependencies│──│  Auth Middleware    │  │
+│  └─────────────┘  └─────────────┘  └─────────────────────┘  │
+└────────────────────────────┬────────────────────────────────┘
+                             │ Dependency Injection
+┌────────────────────────────┴────────────────────────────────┐
+│                      Service Layer                           │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
+│  │  Services   │──│   Schemas   │──│ Database (SQLAlchemy)│  │
+│  └─────────────┘  └─────────────┘  └─────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+
+Data Flow:
+1. Request hits router endpoint
+2. Dependencies inject services and DB session
+3. Pydantic schemas validate input/output
+4. Services contain business logic
+5. SQLAlchemy models interact with SQLite database`,
+              },
+            }}
           />
         </section>
 
@@ -335,25 +374,43 @@ Data Flow:
           <h3 className="mb-2.5 mt-7 text-[19px] font-semibold text-[#e6edf3]">
             Example: Tracing Task Creation in TaskForge
           </h3>
-          <CodeBlock
-            lang="text"
-            filename="Prompt"
-            code={`> Trace what happens when a user creates a new task in TaskForge.
+          <DynamicCodeBlock
+                        content={{
+              nextjs: {
+                lang: 'text',
+                filename: 'Prompt',
+                code: `> Trace what happens when a user creates a new task in TaskForge.
   Start from the UI form submission and follow the code through:
-  - The API route or server action
+  - The server action
   - Any validation or business logic
   - The database operation
   - The response back to the client
-  Show me the exact files and functions involved.`}
+  Show me the exact files and functions involved.`,
+              },
+              fastapi: {
+                lang: 'text',
+                filename: 'Prompt',
+                code: `> Trace what happens when a user creates a new task in TaskForge.
+  Start from the API request and follow the code through:
+  - The router endpoint
+  - Any validation or business logic
+  - The database operation
+  - The response back to the client
+  Show me the exact files and functions involved.`,
+              },
+            }}
           />
 
           <h3 className="mb-2.5 mt-7 text-[19px] font-semibold text-[#e6edf3]">
             Example Output
           </h3>
-          <CodeBlock
-            lang="text"
-            filename="Claude's trace output"
-            code={`## Task Creation Flow
+          <DynamicCodeBlock
+            showTrackIndicator
+            content={{
+              nextjs: {
+                lang: 'text',
+                filename: "Claude's trace output",
+                code: `## Task Creation Flow (Next.js)
 
 1. **UI Form** (src/components/features/TaskForm.tsx)
    - User fills form, clicks "Create Task"
@@ -381,7 +438,43 @@ Files touched:
 - src/components/features/TaskForm.tsx
 - src/server/actions/tasks.ts
 - src/server/services/TaskService.ts
-- prisma/schema.prisma (Task model)`}
+- prisma/schema.prisma (Task model)`,
+              },
+              fastapi: {
+                lang: 'text',
+                filename: "Claude's trace output",
+                code: `## Task Creation Flow (FastAPI)
+
+1. **API Request** (POST /api/tasks)
+   - Client sends JSON body with task data
+   - Request hits tasks router
+
+2. **Router** (app/routers/tasks.py:create_task)
+   - Pydantic validates TaskCreate schema
+   - Depends() injects DB session and current user
+   - Delegates to TaskService
+
+3. **Service Layer** (app/services/task_service.py:create)
+   - Business logic: sets default status to "todo"
+   - Assigns task to project
+   - Validates user has access to project
+
+4. **Database** (via SQLAlchemy)
+   - INSERT into tasks table
+   - Commits transaction
+   - Returns created task with ID
+
+5. **Response**
+   - TaskResponse schema serializes output
+   - Returns 201 Created with task data
+
+Files touched:
+- app/routers/tasks.py
+- app/schemas/task.py
+- app/services/task_service.py
+- app/models/task.py`,
+              },
+            }}
           />
 
           <Callout type="tip" title="Common Traces to Run">
@@ -528,17 +621,39 @@ Files touched:
             Let's practice by onboarding TaskForge as if you've never seen it before.
           </p>
 
+          <AppSelector />
+
           <div className="my-4 rounded-[10px] border border-[#21262d] bg-[#161b22] p-[22px]">
             <h3 className="mb-3 mt-0 text-[19px] font-semibold text-[#e6edf3]">
               Step 1: Clone and Explore
             </h3>
-            <CodeBlock
-              code={`# Clone TaskForge (if you haven't already)
+            <DynamicCodeBlock
+                            content={{
+                nextjs: {
+                  code: `# Clone TaskForge (if you haven't already)
 git clone https://github.com/lumenalta/taskforge-tutorial.git
-cd taskforge-tutorial/nextjs  # or /fastapi
+cd taskforge-tutorial/nextjs
+
+# Install dependencies
+npm install
 
 # Start Claude Code
-claude`}
+claude`,
+                },
+                fastapi: {
+                  code: `# Clone TaskForge (if you haven't already)
+git clone https://github.com/lumenalta/taskforge-tutorial.git
+cd taskforge-tutorial/fastapi
+
+# Create virtual environment and install
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\\Scripts\\activate
+pip install -e ".[dev]"
+
+# Start Claude Code
+claude`,
+                },
+              }}
             />
             <CodeBlock
               lang="text"

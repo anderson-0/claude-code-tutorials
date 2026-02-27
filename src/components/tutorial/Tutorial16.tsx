@@ -6,6 +6,8 @@ import { Callout } from './Callout'
 import { Accordion } from './Accordion'
 import { TutorialSidebar } from './TutorialSidebar'
 import { SectionNav } from './SectionNav'
+import { AppSelector } from './AppSelector'
+import { DynamicCodeBlock } from './DynamicCodeBlock'
 import { tutorials, levelColors, levelLabels, type Section } from '#/lib/tutorials-data'
 
 const meta = tutorials[15] // Tutorial 16 (0-indexed)
@@ -1223,19 +1225,35 @@ Enable monetization of premium features.
             Let's build a working Ralph loop that processes a queue of intentional bugs in TaskForge.
           </p>
 
+          <AppSelector />
+
           <div className="my-4 rounded-[10px] border border-[#21262d] bg-[#161b22] p-[22px]">
             <h3 className="mb-3 mt-0 text-[19px] font-semibold text-[#e6edf3]">
               Step 1: Seed Bugs in TaskForge
             </h3>
-            <CodeBlock
-              code={`cd taskforge-tutorial/nextjs
+            <DynamicCodeBlock
+                            content={{
+                nextjs: {
+                  code: `cd taskforge-tutorial/nextjs
 
 # Introduce 5 intentional bugs
 # Bug 1: Missing null check in task filtering
 # Bug 2: Off-by-one error in pagination
 # Bug 3: Incorrect date formatting
 # Bug 4: Missing error handling in API route
-# Bug 5: Race condition in state update`}
+# Bug 5: Race condition in state update`,
+                },
+                fastapi: {
+                  code: `cd taskforge-tutorial/fastapi
+
+# Introduce 5 intentional bugs
+# Bug 1: Missing null check in task filtering
+# Bug 2: Off-by-one error in pagination
+# Bug 3: Incorrect date formatting
+# Bug 4: Missing error handling in API route
+# Bug 5: Race condition in async operation`,
+                },
+              }}
             />
             <p className="my-3 text-[15px] leading-relaxed text-[#c9d1d9]">
               Use Claude to introduce these bugs realistically.

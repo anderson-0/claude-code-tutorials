@@ -6,6 +6,8 @@ import { Callout } from './Callout'
 import { Accordion } from './Accordion'
 import { TutorialSidebar } from './TutorialSidebar'
 import { SectionNav } from './SectionNav'
+import { AppSelector } from './AppSelector'
+import { DynamicCodeBlock } from './DynamicCodeBlock'
 import { tutorials, levelColors, levelLabels, type Section } from '#/lib/tutorials-data'
 
 const meta = tutorials[11] // Tutorial 12 (0-indexed)
@@ -842,12 +844,16 @@ chmod +x taskforge-server.js`}
             />
           </div>
 
+          <AppSelector />
+
           <div className="my-4 rounded-[10px] border border-[#21262d] bg-[#161b22] p-[22px]">
             <h3 className="mb-3 mt-0 text-[19px] font-semibold text-[#e6edf3]">
               Step 2: Configure MCP Server
             </h3>
-            <CodeBlock
-              code={`cd taskforge-tutorial/nextjs  # or /fastapi
+            <DynamicCodeBlock
+                            content={{
+                nextjs: {
+                  code: `cd taskforge-tutorial/nextjs
 mkdir -p .claude
 
 cat << 'EOF' > .claude/settings.json
@@ -865,7 +871,30 @@ cat << 'EOF' > .claude/settings.json
 EOF
 
 # Add to .gitignore
-echo ".claude/settings.json" >> .gitignore`}
+echo ".claude/settings.json" >> .gitignore`,
+                },
+                fastapi: {
+                  code: `cd taskforge-tutorial/fastapi
+mkdir -p .claude
+
+cat << 'EOF' > .claude/settings.json
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_TOKEN": "ghp_your_token_here"
+      }
+    }
+  }
+}
+EOF
+
+# Add to .gitignore
+echo ".claude/settings.json" >> .gitignore`,
+                },
+              }}
             />
           </div>
 

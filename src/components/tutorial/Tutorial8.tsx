@@ -6,6 +6,8 @@ import { Callout } from './Callout'
 import { Accordion } from './Accordion'
 import { TutorialSidebar } from './TutorialSidebar'
 import { SectionNav } from './SectionNav'
+import { AppSelector } from './AppSelector'
+import { DynamicCodeBlock } from './DynamicCodeBlock'
 import { tutorials, levelColors, levelLabels, type Section } from '#/lib/tutorials-data'
 
 const meta = tutorials[7] // Tutorial 8 (0-indexed)
@@ -1004,13 +1006,23 @@ if not task.assignee:
             Let's generate a complete documentation suite for TaskForge.
           </p>
 
+          <AppSelector />
+
           <div className="my-4 rounded-[10px] border border-[#21262d] bg-[#161b22] p-[22px]">
             <h3 className="mb-3 mt-0 text-[19px] font-semibold text-[#e6edf3]">
               Step 1: Generate the README
             </h3>
-            <CodeBlock
-              code={`cd taskforge-tutorial/fastapi  # or /nextjs
-claude`}
+            <DynamicCodeBlock
+                            content={{
+                nextjs: {
+                  code: `cd taskforge-tutorial/nextjs
+claude`,
+                },
+                fastapi: {
+                  code: `cd taskforge-tutorial/fastapi
+claude`,
+                },
+              }}
             />
             <CodeBlock
               lang="text"
@@ -1072,10 +1084,26 @@ claude`}
             <h3 className="mb-3 mt-0 text-[19px] font-semibold text-[#e6edf3]">
               Step 4: Create an ADR
             </h3>
-            <CodeBlock
-              lang="text"
-              filename="Prompt"
-              code={`> Create an ADR documenting why we chose FastAPI over Flask/Django.
+            <DynamicCodeBlock
+                            content={{
+                nextjs: {
+                  lang: 'text',
+                  filename: 'Prompt',
+                  code: `> Create an ADR documenting why we chose Next.js App Router over Pages Router.
+  Save it to docs/adr/001-use-nextjs-app-router.md
+
+  Include:
+  - Context: what we needed from a React framework
+  - Decision: use Next.js 15 App Router
+  - Alternatives: Pages Router, Remix, Vite + React Router
+  - Consequences: server components, streaming, improved caching
+
+  Use the ADR template format.`,
+                },
+                fastapi: {
+                  lang: 'text',
+                  filename: 'Prompt',
+                  code: `> Create an ADR documenting why we chose FastAPI over Flask/Django.
   Save it to docs/adr/001-use-fastapi.md
 
   Include:
@@ -1084,7 +1112,9 @@ claude`}
   - Alternatives: Flask, Django
   - Consequences: async support, type safety, auto docs
 
-  Use the ADR template format.`}
+  Use the ADR template format.`,
+                },
+              }}
             />
           </div>
 

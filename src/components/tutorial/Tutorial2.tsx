@@ -691,8 +691,7 @@ tests/
               Step 1: Clone TaskForge
             </h3>
             <DynamicCodeBlock
-              showInlineSwitcher
-              content={{
+                            content={{
                 nextjs: {
                   code: `# Clone the starter repo
 git clone https://github.com/lumenalta/taskforge-tutorial.git
