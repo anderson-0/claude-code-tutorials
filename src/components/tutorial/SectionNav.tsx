@@ -16,11 +16,14 @@ export function SectionNav({
 }: SectionNavProps) {
   return (
     <nav className="sticky top-0 z-30 border-b border-[#21262d] bg-[#010409ee] backdrop-blur-xl">
-      <div className="flex items-center gap-2 overflow-x-auto px-4 py-2">
+      <div className="flex items-center gap-2 px-4 py-2">
         <button
           type="button"
-          onClick={onMenuOpen}
-          className="relative z-10 flex shrink-0 cursor-pointer items-center border-none bg-transparent p-2 text-[#8b949e] hover:text-[#e6edf3]"
+          onClick={(e) => {
+            e.stopPropagation()
+            onMenuOpen()
+          }}
+          className="flex shrink-0 cursor-pointer items-center border-none bg-transparent p-2 text-[#8b949e] hover:text-[#e6edf3]"
           aria-label="Open menu"
         >
           <Menu size={22} />
@@ -28,7 +31,7 @@ export function SectionNav({
 
         <div className="h-5 w-px shrink-0 bg-[#21262d]" />
 
-        <div className="flex flex-1 justify-center gap-[3px] overflow-auto">
+        <div className="flex flex-1 justify-center gap-[3px] overflow-x-auto">
           {sections.map((section) => {
             const isActive = activeSection === section.id
 
