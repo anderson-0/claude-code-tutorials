@@ -49,10 +49,6 @@ export function TutorialContent({ onMenuOpen, onSelectTutorial, currentTutorialI
       </div>
     ))
 
-  const handleMenuOpen = () => {
-    setSidebarOpen(true)
-  }
-
   const handleSelectTutorial = (id: number) => {
     if (onSelectTutorial) {
       onSelectTutorial(id)
@@ -70,7 +66,7 @@ export function TutorialContent({ onMenuOpen, onSelectTutorial, currentTutorialI
       <SectionNav
         sections={tutorial1Sections}
         activeSection={activeSection}
-        onMenuOpen={handleMenuOpen}
+        onMenuOpen={() => setSidebarOpen(true)}
       />
 
       <div className="mx-auto max-w-[820px] px-6 pb-20">
