@@ -67,7 +67,10 @@ export function TutorialContent({ onMenuOpen, onSelectTutorial, currentTutorialI
       <SectionNav
         sections={tutorial1Sections}
         activeSection={activeSection}
-        onMenuOpen={() => setSidebarOpen(true)}
+        onMenuOpen={() => {
+          console.log('Tutorial1: onMenuOpen called, setting sidebarOpen to true')
+          setSidebarOpen(true)
+        }}
       />
 
       <div className="mx-auto max-w-[820px] px-6 pb-20">

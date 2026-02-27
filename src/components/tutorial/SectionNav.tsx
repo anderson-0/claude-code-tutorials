@@ -21,6 +21,7 @@ export function SectionNav({
           type="button"
           onClick={(e) => {
             e.stopPropagation()
+            console.log('SectionNav: Menu button clicked')
             onMenuOpen()
           }}
           className="flex shrink-0 cursor-pointer items-center border-none bg-transparent p-2 text-[#8b949e] hover:text-[#e6edf3]"
