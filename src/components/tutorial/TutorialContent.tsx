@@ -7,11 +7,16 @@ import { Accordion } from './Accordion'
 import { TabGroup } from './TabGroup'
 import { TutorialSidebar } from './TutorialSidebar'
 import { SectionNav } from './SectionNav'
-import { tutorialSections, tutorials } from '#/lib/tutorials-data'
+import { tutorial1Sections, tutorials } from '#/lib/tutorials-data'
 
-export function TutorialContent() {
+interface TutorialContentProps {
+  onMenuOpen?: () => void
+  onSelectTutorial?: (id: number) => void
+  currentTutorialId?: number
+}
+
+export function TutorialContent({ onMenuOpen, onSelectTutorial, currentTutorialId = 1 }: TutorialContentProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [currentTutorial, setCurrentTutorial] = useState(1)
   const [activeSection, setActiveSection] = useState('overview')
 
   useEffect(() => {
@@ -26,7 +31,7 @@ export function TutorialContent() {
       { rootMargin: '-20% 0px -70% 0px' }
     )
 
-    tutorialSections.forEach((section) => {
+    tutorial1Sections.forEach((section) => {
       const el = document.getElementById(section.id)
       if (el) observer.observe(el)
     })
@@ -44,18 +49,32 @@ export function TutorialContent() {
       </div>
     ))
 
+  const handleMenuOpen = () => {
+    if (onMenuOpen) {
+      onMenuOpen()
+    } else {
+      setSidebarOpen(true)
+    }
+  }
+
+  const handleSelectTutorial = (id: number) => {
+    if (onSelectTutorial) {
+      onSelectTutorial(id)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-[#010409] font-sans text-[#c9d1d9]">
       <TutorialSidebar
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
-        currentTutorialId={currentTutorial}
-        onSelectTutorial={setCurrentTutorial}
+        currentTutorialId={currentTutorialId}
+        onSelectTutorial={handleSelectTutorial}
       />
       <SectionNav
-        sections={tutorialSections}
+        sections={tutorial1Sections}
         activeSection={activeSection}
-        onMenuOpen={() => setSidebarOpen(true)}
+        onMenuOpen={handleMenuOpen}
       />
 
       <div className="mx-auto max-w-[820px] px-6 pb-20">
@@ -855,8 +874,11 @@ export function TutorialContent() {
             — Lumenalta Learning Path
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-xs text-[#484f58]">Tutorial 1 of 17</span>
-            <button className="cursor-pointer rounded-lg border-none bg-[#238636] px-[18px] py-2 text-[13px] font-semibold text-white hover:bg-[#2ea043]">
+            <span className="text-xs text-[#484f58]">Tutorial 1 of {tutorials.length}</span>
+            <button
+              onClick={() => handleSelectTutorial(2)}
+              className="cursor-pointer rounded-lg border-none bg-[#238636] px-[18px] py-2 text-[13px] font-semibold text-white hover:bg-[#2ea043]"
+            >
               Next: CLAUDE.md →
             </button>
           </div>

@@ -1,14 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { TutorialContent } from '#/components/tutorial'
+import { TutorialApp } from '#/components/tutorial'
 
 export const Route = createFileRoute('/')({
   head: () => ({
     meta: [
-      { title: 'Getting Started with Claude Code | Claude Code Tutorials' },
+      { title: 'Claude Code Tutorial Series | Lumenalta' },
       {
         name: 'description',
         content:
-          'Install Claude Code, run your first commands, and understand the mental model of working with an agentic coding tool.',
+          'A 17-tutorial interactive web course teaching Claude Code from beginner to expert. Learn agentic AI development.',
       },
     ],
   }),
@@ -16,5 +16,5 @@ export const Route = createFileRoute('/')({
 })
 
 function App() {
-  return <TutorialContent />
+  return <TutorialApp />
 }
