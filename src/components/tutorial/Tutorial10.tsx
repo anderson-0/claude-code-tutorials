@@ -64,7 +64,7 @@ export function Tutorial10({ onMenuOpen, onSelectTutorial, currentTutorialId }: 
     ))
 
   return (
-    <div className="min-h-screen bg-[#010409] font-sans text-[#c9d1d9]">
+    <div className="min-h-screen bg-[#010409] font-sans text-[#c9d1d9] [&_code:not(pre_code)]:bg-[#161b22] [&_code:not(pre_code)]:text-[#e6edf3] [&_code:not(pre_code)]:rounded [&_code:not(pre_code)]:px-1.5 [&_code:not(pre_code)]:py-0.5 [&_code:not(pre_code)]:text-[0.9em]">
       <TutorialSidebar
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
