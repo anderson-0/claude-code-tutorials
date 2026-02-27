@@ -78,10 +78,19 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body,
 #app {
   min-height: 100%;
+}
+
+/* Offset for sticky nav when scrolling to sections */
+section[id] {
+  scroll-margin-top: 60px;
 }
 
 body {
