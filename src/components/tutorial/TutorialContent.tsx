@@ -1,5 +1,6 @@
 'use client'
 
+// Tutorial 1: Getting Started with Claude Code
 import { useState, useEffect } from 'react'
 import { CodeBlock } from './CodeBlock'
 import { Callout } from './Callout'
