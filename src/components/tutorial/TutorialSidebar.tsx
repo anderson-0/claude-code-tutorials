@@ -6,6 +6,7 @@ import {
   tutorials,
   levelColors,
   levelLabels,
+  AVAILABLE_TUTORIALS,
   type Tutorial,
 } from '#/lib/tutorials-data'
 
@@ -100,7 +101,7 @@ export function TutorialSidebar({
               {expanded[group.level] &&
                 group.items.map((tutorial) => {
                   const isActive = tutorial.id === currentTutorialId
-                  const isAvailable = tutorial.id === 1
+                  const isAvailable = AVAILABLE_TUTORIALS.includes(tutorial.id)
 
                   return (
                     <button
@@ -143,7 +144,7 @@ export function TutorialSidebar({
 
         {/* Footer */}
         <div className="shrink-0 border-t border-[#21262d] px-[18px] py-3 text-[11px] text-[#484f58]">
-          1 of 17 tutorials available
+          {AVAILABLE_TUTORIALS.length} of 17 tutorials available
         </div>
       </aside>
     </>
