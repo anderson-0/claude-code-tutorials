@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { AppProvider } from './AppContext'
 import { TutorialContent } from './TutorialContent'
 import { Tutorial2 } from './Tutorial2'
 import { Tutorial3 } from './Tutorial3'
@@ -112,10 +113,12 @@ export function TutorialApp() {
   }
 
   return (
-    <TutorialComponent
-      onMenuOpen={() => setSidebarOpen(true)}
-      onSelectTutorial={handleSelectTutorial}
-      currentTutorialId={currentTutorial}
-    />
+    <AppProvider>
+      <TutorialComponent
+        onMenuOpen={() => setSidebarOpen(true)}
+        onSelectTutorial={handleSelectTutorial}
+        currentTutorialId={currentTutorial}
+      />
+    </AppProvider>
   )
 }

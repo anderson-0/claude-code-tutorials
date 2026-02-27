@@ -4,9 +4,10 @@ import { useState, useEffect } from 'react'
 import { CodeBlock } from './CodeBlock'
 import { Callout } from './Callout'
 import { Accordion } from './Accordion'
-import { TabGroup } from './TabGroup'
 import { TutorialSidebar } from './TutorialSidebar'
 import { SectionNav } from './SectionNav'
+import { AppSelector } from './AppSelector'
+import { DynamicCodeBlock } from './DynamicCodeBlock'
 import { tutorials, levelColors, levelLabels, type Section } from '#/lib/tutorials-data'
 
 const meta = tutorials[1] // Tutorial 2 (0-indexed)
@@ -529,18 +530,18 @@ export async function createTask(data: CreateTaskInput) {
             Complete Example: TaskForge CLAUDE.md
           </h3>
           <p className="my-3 text-[15px] leading-relaxed text-[#c9d1d9]">
-            Here's a complete CLAUDE.md for the TaskForge Next.js track:
+            Here's a complete CLAUDE.md for the TaskForge project. Select your track to see the relevant example:
           </p>
 
-          <TabGroup
-            tabs={[
-              {
-                label: 'Next.js Track',
-                content: (
-                  <CodeBlock
-                    lang="markdown"
-                    filename="taskforge/nextjs/CLAUDE.md"
-                    code={`# CLAUDE.md — TaskForge (Next.js)
+          <AppSelector />
+
+          <DynamicCodeBlock
+            showTrackIndicator
+            content={{
+              nextjs: {
+                lang: 'markdown',
+                filename: 'taskforge/nextjs/CLAUDE.md',
+                code: `# CLAUDE.md — TaskForge (Next.js)
 
 ## Project Overview
 TaskForge is a project management app for small teams. Features include
@@ -596,17 +597,12 @@ prisma/
 | Email | Password | Role |
 |-------|----------|------|
 | admin@taskforge.dev | password123 | Admin |
-| alice@taskforge.dev | password123 | Member |`}
-                  />
-                ),
+| alice@taskforge.dev | password123 | Member |`,
               },
-              {
-                label: 'FastAPI Track',
-                content: (
-                  <CodeBlock
-                    lang="markdown"
-                    filename="taskforge/fastapi/CLAUDE.md"
-                    code={`# CLAUDE.md — TaskForge (FastAPI)
+              fastapi: {
+                lang: 'markdown',
+                filename: 'taskforge/fastapi/CLAUDE.md',
+                code: `# CLAUDE.md — TaskForge (FastAPI)
 
 ## Project Overview
 TaskForge is a project management API for small teams. Features include
@@ -674,11 +670,9 @@ tests/
 | Email | Password | Role |
 |-------|----------|------|
 | admin@taskforge.dev | password123 | Admin |
-| alice@taskforge.dev | password123 | Member |`}
-                  />
-                ),
+| alice@taskforge.dev | password123 | Member |`,
               },
-            ]}
+            }}
           />
         </section>
 
@@ -696,19 +690,34 @@ tests/
             <h3 className="mb-3 mt-0 text-[19px] font-semibold text-[#e6edf3]">
               Step 1: Clone TaskForge
             </h3>
-            <CodeBlock
-              code={`# Clone the starter repo (choose your track)
+            <DynamicCodeBlock
+              showInlineSwitcher
+              content={{
+                nextjs: {
+                  code: `# Clone the starter repo
 git clone https://github.com/lumenalta/taskforge-tutorial.git
-cd taskforge-tutorial
+cd taskforge-tutorial/nextjs
 
-# For Next.js track:
-cd nextjs
+# Install dependencies
 npm install
 
-# For FastAPI track:
-cd fastapi
-python -m venv .venv && source .venv/bin/activate
-pip install -e ".[dev]"`}
+# Start development server
+npm run dev`,
+                },
+                fastapi: {
+                  code: `# Clone the starter repo
+git clone https://github.com/lumenalta/taskforge-tutorial.git
+cd taskforge-tutorial/fastapi
+
+# Create virtual environment and install
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\\Scripts\\activate
+pip install -e ".[dev]"
+
+# Start development server
+uvicorn app.main:app --reload`,
+                },
+              }}
             />
           </div>
 
