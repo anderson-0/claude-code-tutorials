@@ -26,7 +26,7 @@ export function SectionNav({
 
         <div className="h-5 w-px shrink-0 bg-[#21262d]" />
 
-        <div className="flex gap-[3px] overflow-auto">
+        <div className="flex flex-1 justify-center gap-[3px] overflow-auto">
           {sections.map((section) => {
             const isActive = activeSection === section.id
 
