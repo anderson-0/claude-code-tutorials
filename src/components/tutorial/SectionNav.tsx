@@ -46,7 +46,7 @@ export function SectionNav({
                 className={`cursor-pointer whitespace-nowrap rounded-2xl px-3 py-[5px] text-[11px] font-medium no-underline transition-all ${
                   isActive
                     ? 'border border-[#1f6feb] bg-[#1f6feb] text-white'
-                    : 'border border-transparent text-[#e6edf3] hover:bg-[#21262d] hover:text-white'
+                    : 'border border-transparent text-white/90 hover:bg-[#21262d] hover:text-white'
                 }`}
               >
                 {section.short}
